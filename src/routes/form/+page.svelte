@@ -1,0 +1,86 @@
+<script lang="ts">
+	import { enhance } from '$app/forms';
+    import { nanoid } from "nanoid";
+	// import type { PageData } from './$types';
+
+	// export let data: PageData;
+	
+    let showAdd = true;
+	let nameInput = '';
+	let labelInput = '';
+
+	let formStructure = [
+		{
+			id: "1",
+			type: 'input',
+			args: 'text',
+			name: 'firstName',
+			label: 'First Name'
+		},
+		{
+			id: "2",
+			type: 'input',
+			args: 'text',
+			name: 'lastName',
+			label: 'Last Name'
+		},
+		{
+			id: "3",
+			type: 'input',
+			args: 'text',
+			name: 'street',
+			label: 'Street'
+		}
+	];
+
+    function addInput() {
+        formStructure = [
+            ...formStructure,
+            {
+                id: nanoid(),
+                type: "input",
+                args: "text",
+                name: nameInput,
+                label: labelInput
+            }
+        ];
+        nameInput = "";
+        labelInput = "";
+    }
+</script>
+
+<form method="POST" action="?/create" use:enhance>
+	<div class="flex flex-col gap-y-1 w-2/3">
+		{#each formStructure as el}
+			{@html `
+                <label for=${el.id}>${el.label}</label>
+                <${el.type} id=${el.id} type=${el.args} name=${el.name} />
+            `}
+		{/each}
+	</div>
+	{#if showAdd === true}
+		<form class="mt-1">
+			<h2 class="text-xl">new input</h2>
+			<div class="flex flex-col gap-y-1 w-2/3">
+				<div class="flex flex-col">
+					<label for="nameInput">Name</label>
+					<input id="nameInput" type="text" bind:value={nameInput} />
+				</div>
+				<div class="flex flex-col">
+					<label for="labelInput">Label</label>
+					<input id="labelInput" type="text" bind:value={labelInput} />
+				</div>
+			</div>
+			<button
+				type="button"
+				class="mt-2 rounded-full bg-indigo-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+				on:click={addInput}
+                >Add Input</button
+			>
+		</form>
+	{/if}
+	<button type="button" on:click={() => (showAdd = !showAdd)}>{showAdd ? '-' : '+'}</button>
+	<br />
+	<hr />
+	<button class="border-2 border-gray-700 p-1 mt-1">Submit</button>
+</form>
