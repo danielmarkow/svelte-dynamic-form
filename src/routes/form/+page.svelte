@@ -60,8 +60,8 @@
 	</div>
 	{#if showAdd === true}
 		<form class="mt-1">
-			<h2 class="text-xl">new input</h2>
-			<div class="flex flex-col gap-y-1 w-2/3">
+            <div class="flex flex-col gap-y-1 w-2/3 border border-dashed border-gray-300 p-1">
+                <h2 class="text-xl">new input</h2>
 				<div class="flex flex-col">
 					<label for="nameInput">Name</label>
 					<input id="nameInput" type="text" bind:value={nameInput} />
@@ -70,17 +70,17 @@
 					<label for="labelInput">Label</label>
 					<input id="labelInput" type="text" bind:value={labelInput} />
 				</div>
+                <button
+                    type="button"
+                    class="mt-2 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    on:click={addInput}
+                    >Add Input</button
+                >
 			</div>
-			<button
-				type="button"
-				class="mt-2 rounded-full bg-indigo-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-				on:click={addInput}
-                >Add Input</button
-			>
 		</form>
 	{/if}
-	<button type="button" on:click={() => (showAdd = !showAdd)}>{showAdd ? '-' : '+'}</button>
+	<button type="button" on:click={() => (showAdd = !showAdd)} class="px-5 mt-1 mb-1 rounded-full bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{showAdd ? '-' : '+'}</button>
 	<br />
-	<hr />
-	<button class="border-2 border-gray-700 p-1 mt-1">Submit</button>
+	<hr class="w-2/3" />
+	<button class="mt-1 rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
 </form>
