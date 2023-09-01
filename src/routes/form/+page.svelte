@@ -30,7 +30,17 @@
 			args: 'text',
 			name: 'street',
 			label: 'Street'
-		}
+		},
+        {
+            id: "4",
+            type: "select",
+            args: [
+                {optValue: "yes", optLabel: "Yes"},
+                {optValue: "no", optLabel: "No"},
+            ],
+            name: "vote",
+            label: "Vote please!"
+        }
 	];
 
     function addInput() {
@@ -52,11 +62,21 @@
 <form method="POST" action="?/create" use:enhance>
 	<div class="flex flex-col gap-y-1 w-2/3">
 		{#each formStructure as el}
+            {#if el.type === "input"}
 			{@html `
                 <label for=${el.id}>${el.label}</label>
                 <${el.type} id=${el.id} type=${el.args} name=${el.name} />
             `}
-		{/each}
+            {/if}
+            {#if el.type === "select"}
+                {@html `
+                    <label for=${el.id}>${el.label}</label>
+                    <select id=${el.id} name=${el.name}>
+                        ${el.args.map((opt) => `<option value=${opt.optValue}>${opt.optLabel}</option>`)}
+                    </select>
+                `}
+            {/if}
+    	{/each}
 	</div>
 	{#if showAdd === true}
 		<form class="mt-1">
