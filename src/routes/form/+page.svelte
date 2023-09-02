@@ -11,10 +11,25 @@
 	let argInput = 'text';
 	let requiredInput = false;
 
-	let formStructure = [
+	type FormElement = {
+		id: string;
+		type: "input";
+		args: string;
+		name: string;
+		label: string;
+		required: boolean;
+	} | {
+		id: string;
+		type: "select";
+		args: {optValue: string; optLabel: string;}[],
+		name: string;
+		label: string;
+	}
+
+	let formStructure: FormElement[] = [
 		{
 			id: '1',
-			type: 'input',
+			type: 'input' as const,
 			args: 'text',
 			name: 'firstName',
 			label: 'First Name',
@@ -22,7 +37,7 @@
 		},
 		{
 			id: '2',
-			type: 'input',
+			type: 'input' as const,
 			args: 'text',
 			name: 'lastName',
 			label: 'Last Name',
@@ -30,7 +45,7 @@
 		},
 		{
 			id: '3',
-			type: 'input',
+			type: 'input' as const,
 			args: 'text',
 			name: 'street',
 			label: 'Street',
@@ -38,7 +53,7 @@
 		},
 		{
 			id: '4',
-			type: 'select',
+			type: 'select' as const,
 			args: [
 				{ optValue: 'yes', optLabel: 'Yes' },
 				{ optValue: 'no', optLabel: 'No' }
