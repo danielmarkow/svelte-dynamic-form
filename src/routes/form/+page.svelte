@@ -72,13 +72,13 @@
 				args: argInput,
 				name: nameInput,
 				label: labelInput,
-                required: requiredInput
+        required: requiredInput
 			}
 		];
 		nameInput = '';
 		labelInput = '';
 		argInput = '';
-        requiredInput = false;
+    requiredInput = false;
 	}
 </script>
 
