@@ -1,9 +1,11 @@
 <script lang="ts">
+	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 	import { nanoid } from 'nanoid';
-	// import type { PageData } from './$types';
+	import type { FormElement } from '$lib/types';
+	import NewInput from '$lib/components/NewInput.svelte';
 
-	// export let data: PageData;
+	export let data: PageData;
 
 	let showAdd = true;
 	let nameInput = '';
@@ -11,57 +13,7 @@
 	let argInput = 'text';
 	let requiredInput = false;
 
-	type FormElement = {
-		id: string;
-		type: "input";
-		args: string;
-		name: string;
-		label: string;
-		required: boolean;
-	} | {
-		id: string;
-		type: "select";
-		args: {optValue: string; optLabel: string;}[],
-		name: string;
-		label: string;
-	}
-
-	let formStructure: FormElement[] = [
-		{
-			id: '1',
-			type: 'input' as const,
-			args: 'text',
-			name: 'firstName',
-			label: 'First Name',
-			required: true
-		},
-		{
-			id: '2',
-			type: 'input' as const,
-			args: 'text',
-			name: 'lastName',
-			label: 'Last Name',
-			required: false
-		},
-		{
-			id: '3',
-			type: 'input' as const,
-			args: 'text',
-			name: 'street',
-			label: 'Street',
-			required: false
-		},
-		{
-			id: '4',
-			type: 'select' as const,
-			args: [
-				{ optValue: 'yes', optLabel: 'Yes' },
-				{ optValue: 'no', optLabel: 'No' }
-			],
-			name: 'vote',
-			label: 'Vote please!'
-		}
-	];
+	let formStructure: FormElement[] = data.form;
 
 	function addInput() {
 		formStructure = [
@@ -104,7 +56,7 @@
 		{/each}
 	</div>
 	{#if showAdd === true}
-		<form class="mt-1">
+		<!-- <form class="mt-1">
 			<div class="flex flex-col gap-y-1 w-2/3 border border-dashed border-gray-300 p-1">
 				<h2 class="text-xl">new input</h2>
 				<div class="flex flex-col">
@@ -137,7 +89,8 @@
 					on:click={addInput}>Add Input</button
 				>
 			</div>
-		</form>
+		</form> -->
+		<NewInput />
 	{/if}
 	<button
 		type="button"
@@ -149,6 +102,8 @@
 	<hr class="w-2/3" />
 	<button
 		class="mt-1 rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+		formaction="?/create"
 		>Submit</button
 	>
 </form>
+{JSON.stringify(data.form)}
