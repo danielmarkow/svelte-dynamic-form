@@ -16,8 +16,8 @@ export const actions = {
 		const newId = nanoid();
 		const now = new Date();
 
-		console.log('createinput: ', Object.fromEntries(data));
-		console.log('formId: ', params.formId);
+		// console.log('createinput: ', Object.fromEntries(data));
+		// console.log('formId: ', params.formId);
 
 		try {
 			await client

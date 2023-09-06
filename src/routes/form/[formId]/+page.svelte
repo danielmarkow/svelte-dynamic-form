@@ -7,7 +7,7 @@
 
 	export let data: PageData;
 
-	let showAdd = true;
+	// let showAdd = true;
 
 	let formStructure: FormElement[] = data.form;
 	$: formStructure = data.form;
@@ -50,20 +50,20 @@
 		{/each}
 	</div>
 
-	<button
+	<!-- <button
 		type="button"
 		on:click={() => (showAdd = !showAdd)}
 		class="px-5 mt-1 mb-1 rounded-full bg-indigo-600 p-1 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 		>{showAdd ? '-' : '+'}</button
 	>
-	<br />
-	<hr class="w-2/3" />
-	<button
+	<br /> -->
+	<hr class="w-2/3 mt-4 mb-2" />
+	<!-- <button
 		class="mt-1 rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 		formaction="?/create">Submit</button
-	>
+	> -->
 </form>
-{#if showAdd === true}
+<!-- {#if showAdd === true} -->
 	<div class="h-2" />
 	<NewInput />
-{/if}
+<!-- {/if} -->
