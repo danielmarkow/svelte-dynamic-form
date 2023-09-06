@@ -31,7 +31,7 @@ export const actions = {
 								id: newId,
 								type: 'input',
 								args: formData.inputArg,
-								name: formData.inputName,
+								name: formData.labelInput.toString().toLowerCase() + '_' + nanoid(5),
 								label: formData.labelInput,
 								required: formData.requiredArg
 							}
