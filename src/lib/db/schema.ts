@@ -5,13 +5,17 @@ import { z } from 'zod';
 export const FormTable = pgTable('form', {
 	id: varchar('form_id', { length: 21 }).notNull().primaryKey(),
 	name: text('name').notNull(),
-	description: text('name'),
+	description: text('description'),
 	createdAt: timestamp('created_at').notNull(),
 	changedAt: timestamp('changed_at').notNull()
 });
 
 export const insertFormSchema = createInsertSchema(FormTable, {
 	name: z.string().min(1)
+}).omit({
+	id: true,
+	createdAt: true,
+	changedAt: true
 });
 
 export const selectFormSchema = createSelectSchema(FormTable);
@@ -34,5 +38,9 @@ export const FormElementsTable = pgTable('form_elements', {
 export const insertFormElementsSchema = createInsertSchema(FormElementsTable, {
 	type: z.string().min(1),
 	name: z.string().min(1)
+}).omit({
+	id: true,
+	createdAt: true,
+	changedAt: true
 });
 export const selectFormElementsSchema = createSelectSchema(FormElementsTable);
