@@ -1,37 +1,15 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
-	import { nanoid } from 'nanoid';
 	import type { FormElement } from '$lib/types';
 	import NewInput from '$lib/components/NewInput.svelte';
 
 	export let data: PageData;
 
 	let showAdd = true;
-	let nameInput = '';
-	let labelInput = '';
-	let argInput = 'text';
-	let requiredInput = false;
-
+	
 	let formStructure: FormElement[] = data.form;
-
-	function addInput() {
-		formStructure = [
-			...formStructure,
-			{
-				id: nanoid(),
-				type: 'input',
-				args: argInput,
-				name: nameInput,
-				label: labelInput,
-        required: requiredInput
-			}
-		];
-		nameInput = '';
-		labelInput = '';
-		argInput = '';
-    requiredInput = false;
-	}
+	$: formStructure = data.form;
 </script>
 
 <form method="POST" action="?/create" use:enhance>
@@ -55,43 +33,7 @@
 			{/if}
 		{/each}
 	</div>
-	{#if showAdd === true}
-		<!-- <form class="mt-1">
-			<div class="flex flex-col gap-y-1 w-2/3 border border-dashed border-gray-300 p-1">
-				<h2 class="text-xl">new input</h2>
-				<div class="flex flex-col">
-					<label for="nameInput">Name</label>
-					<input id="nameInput" type="text" bind:value={nameInput} />
-				</div>
-				<div class="flex flex-col">
-					<label for="labelInput">Label</label>
-					<input id="labelInput" type="text" bind:value={labelInput} />
-				</div>
-				<div class="flex flex-col">
-					<label for="inputArg">Input Type</label>
-					<select id="inputArg" bind:value={argInput}>
-						<option value="text">Text</option>
-						<option value="number">Number</option>
-						<option value="email">Email</option>
-						<option value="url">Url</option>
-					</select>
-				</div>
-				<div class="flex flex-col">
-                    <label for="requiredArg">Required?</label>
-                    <select id="requiredArg" bind:value={requiredInput}>
-                        <option value={false}>Not Required</option>
-                        <option value={true}>Required!</option>
-                    </select>
-                </div>
-				<button
-					type="button"
-					class="mt-2 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-					on:click={addInput}>Add Input</button
-				>
-			</div>
-		</form> -->
-		<NewInput />
-	{/if}
+	
 	<button
 		type="button"
 		on:click={() => (showAdd = !showAdd)}
@@ -106,4 +48,7 @@
 		>Submit</button
 	>
 </form>
-{JSON.stringify(data.form)}
+{#if showAdd === true}
+		<div class="h-2" />
+		<NewInput />
+	{/if}
