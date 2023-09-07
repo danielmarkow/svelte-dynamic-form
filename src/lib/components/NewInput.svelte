@@ -16,6 +16,9 @@
 				<option value="number">Number</option>
 				<option value="email">Email</option>
 				<option value="url">Url</option>
+				<option value="date">Date</option>
+				<option value="datetime-local">Date and Time</option>
+				<option value="month">Year Month</option>
 			</select>
 		</div>
 		<div class="flex flex-col">

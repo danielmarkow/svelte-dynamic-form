@@ -42,11 +42,15 @@
                     </select>
                 `}
 			{/if}
-			<button
-				type="button"
-				on:click={() => deleteElement(el.id)}
-				>delete</button
-			>
+			<div class="flex gap-2">
+				<button
+					type="button"
+					on:click={() => deleteElement(el.id)}
+					>delete</button
+				>
+				<button type="button">edit</button>
+
+			</div>
 		{/each}
 	</div>
 
@@ -58,10 +62,10 @@
 	>
 	<br /> -->
 	<hr class="w-2/3 mt-4 mb-2" />
-	<!-- <button
+	<button
 		class="mt-1 rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 		formaction="?/create">Submit</button
-	> -->
+	>
 </form>
 <!-- {#if showAdd === true} -->
 	<div class="h-2" />
