@@ -11,14 +11,18 @@
 	export let oldRequired: boolean;
 </script>
 
-<form method="POST" action="?/editinput" use:enhance={({ }) => {
-	return async ({ result }) => {
-		if (result.type === "success") {
-			dispatch("notitfy", "edit successfull");
-			invalidateAll();
-		}
-	};
-}}>
+<form
+	method="POST"
+	action="?/editinput"
+	use:enhance={({}) => {
+		return async ({ result }) => {
+			if (result.type === 'success') {
+				dispatch('notitfy', 'edit successfull');
+				invalidateAll();
+			}
+		};
+	}}
+>
 	<div class="flex flex-col gap-y-1 w-2/3 border border-dashed border-gray-300 p-1">
 		<h2 class="text-xl">edit input</h2>
 		<input type="text" id="elId" name="elId" value={elId} hidden />
@@ -29,18 +33,17 @@
 		<div class="flex flex-col">
 			<label for="inputArg">Input Type</label>
 
-				<select id="inputArg" name="inputArg">
+			<select id="inputArg" name="inputArg">
 				<option value="text" selected={oldInputType === 'text' ? true : false}>Text</option>
 				<option value="number" selected={oldInputType === 'number' ? true : false}>Number</option>
 				<option value="email" selected={oldInputType === 'email' ? true : false}>Email</option>
 				<option value="url" selected={oldInputType === 'url' ? true : false}>Url</option>
 				<option value="date" selected={oldInputType === 'date' ? true : false}>Date</option>
-				<option value="datetime-local" selected={
-					oldInputType === 'datetime-local' ? true : false
-				}>Date and Time</option>
+				<option value="datetime-local" selected={oldInputType === 'datetime-local' ? true : false}
+					>Date and Time</option
+				>
 				<option value="month" selected={oldInputType === 'month' ? true : false}>Year Month</option>
-				</select>
-	
+			</select>
 		</div>
 		<div class="flex flex-col">
 			<label for="requiredArg">Required?</label>

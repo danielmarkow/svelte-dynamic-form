@@ -25,7 +25,7 @@
 	<div class="flex flex-col gap-y-1 w-2/3">
 		{#each formStructure as el}
 			{#if el.type === 'input'}
-			<Input el={el} deleteElement={deleteElement} />
+				<Input {el} {deleteElement} />
 			{/if}
 			{#if el.type === 'select'}
 				<div id={el.id} class="flex flex-col gap-y-1 w-2/3">
