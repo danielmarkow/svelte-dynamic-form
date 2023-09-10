@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import type { FormElement } from '$lib/types';
 	import NewInput from '$lib/components/NewInput.svelte';
-	import { invalidate } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import Input from '$lib/components/formelements/Input.svelte';
 
 	export let data: PageData;
@@ -15,7 +15,7 @@
 		fetch(`/api/form/${data.formId}/${elementId}`, {
 			method: 'DELETE'
 		})
-			.then(() => invalidate(`/form/${data.formId}`))
+			.then(() => invalidateAll())
 			.catch((err) => console.log(err));
 	}
 </script>
@@ -24,10 +24,6 @@
 	<div class="flex flex-col gap-y-1 w-2/3">
 		{#each formStructure as el}
 			{#if el.type === 'input'}
-			<!-- <div id={el.id} class="flex flex-col w-2/3">
-				<label for={el.id}>{el.label}</label>
-				<input id={el.id} type={el.args} name={el.name} required={el.required || null} />
-			</div> -->
 			<Input el={el} deleteElement={deleteElement} />
 			{/if}
 			{#if el.type === 'select'}

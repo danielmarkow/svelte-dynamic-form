@@ -4,6 +4,10 @@ import type { PageServerLoad } from './$types';
 import { nanoid } from 'nanoid';
 import { fail } from '@sveltejs/kit';
 
+function uniqueName(label: string) {
+	return label.toString().toLowerCase().replaceAll(' ', '_') + '_' + nanoid(5);
+}
+
 export const actions = {
 	create: async ({ request }) => {
 		const data = await request.formData();
@@ -28,9 +32,9 @@ export const actions = {
 								id: newId,
 								type: 'input',
 								args: formData.inputArg,
-								name: formData.labelInput.toString().toLowerCase() + '_' + nanoid(5),
+								name: uniqueName(formData.labelInput as string),
 								label: formData.labelInput,
-								required: formData.requiredArg
+								required: formData.requiredArg === 'true' ? true : false
 							}
 						},
 						$set: {
@@ -55,12 +59,12 @@ export const actions = {
 					{
 						$set: {
 							'elements.$.args': formData.inputArg,
+							'elements.$.name': uniqueName(formData.labelInput as string),
 							'elements.$.label': formData.labelInput,
-							'elements.$.required': formData.requiredArg
+							'elements.$.required': formData.requiredArg === 'true' ? true : false
 						}
 					}
 				);
-			// return { success: true };
 		} catch (error) {
 			console.error(error);
 			return fail(500, { message: 'error updating db' });

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -13,7 +14,8 @@
 <form method="POST" action="?/editinput" use:enhance={({ }) => {
 	return async ({ result }) => {
 		if (result.type === "success") {
-			dispatch("notitfy", "edit successfull")
+			dispatch("notitfy", "edit successfull");
+			invalidateAll();
 		}
 	};
 }}>
