@@ -16,9 +16,6 @@ export const actions = {
 		const newId = nanoid();
 		const now = new Date();
 
-		// console.log('createinput: ', Object.fromEntries(data));
-		// console.log('formId: ', params.formId);
-
 		try {
 			await client
 				.db('dynForms')
@@ -45,6 +42,11 @@ export const actions = {
 			console.error(error);
 			return fail(500, { message: 'error saving to db' });
 		}
+	},
+	editinput: async ({ request }) => {
+		const data = await request.formData();
+		console.log(Object.fromEntries(data));
+		return { success: true };
 	}
 };
 

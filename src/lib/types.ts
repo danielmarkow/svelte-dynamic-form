@@ -14,3 +14,12 @@ export type FormElement =
 			name: string;
 			label: string;
 	  };
+
+export type InputFormElement = {
+	id: string;
+	type: 'input';
+	args: string;
+	name: string;
+	label: string;
+	required: boolean;
+};

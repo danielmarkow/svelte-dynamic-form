@@ -1,12 +1,21 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	export let oldLabel: string;
 	export let oldInputType: string;
 	export let oldRequired: boolean;
 </script>
 
-<form method="POST" action="?/editinput" use:enhance>
+<form method="POST" action="?/editinput" use:enhance={({ }) => {
+	return async ({ result }) => {
+		if (result.type === "success") {
+			dispatch("notitfy", "edit successfull")
+		}
+	};
+}}>
 	<div class="flex flex-col gap-y-1 w-2/3 border border-dashed border-gray-300 p-1">
 		<h2 class="text-xl">edit input</h2>
 		<div class="flex flex-col">
