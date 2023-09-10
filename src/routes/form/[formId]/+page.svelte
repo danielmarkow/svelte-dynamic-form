@@ -4,6 +4,7 @@
 	import type { FormElement } from '$lib/types';
 	import NewInput from '$lib/components/NewInput.svelte';
 	import { invalidate } from '$app/navigation';
+	import EditInput from '$lib/components/EditInput.svelte';
 
 	export let data: PageData;
 
@@ -19,37 +20,36 @@
 			.then(() => invalidate(`/form/${data.formId}`))
 			.catch((err) => console.log(err));
 	}
+
+	function createEditInput({id, oldLabel, oldInputType, oldRequired} : {id: string, oldLabel: string, oldInputType: string, oldRequired: boolean}) {
+		console.log({oldLabel, oldInputType, oldRequired})
+		// new EditInput({target: document.querySelector(id)!, options: {oldLabel, oldInputType, oldRequired}})
+	}
 </script>
 
 <form method="POST" action="?/create" use:enhance>
 	<div class="flex flex-col gap-y-1 w-2/3">
 		{#each formStructure as el}
 			{#if el.type === 'input'}
-				{@html `
-                <label for=${el.id}>${el.label}</label>
-                <${el.type} id=${el.id} type=${el.args} name=${el.name} ${
-					el.required ? 'required' : ''
-				}/>
-            `}
+			<div id={el.id} class="flex flex-col w-2/3">
+				<label for={el.id}>{el.label}</label>
+				<input id={el.id} type={el.args} name={el.name} required={el.required || null} />
+				<!-- <EditInput oldLabel={el.label} oldInputType={el.args} oldRequired={el.required} /> -->
+			</div>
 			{/if}
 			{#if el.type === 'select'}
-				{@html `
-                    <label for=${el.id}>${el.label}</label>
-                    <select id=${el.id} name=${el.name}>
-                        ${el.args.map(
-													(opt) => `<option value=${opt.optValue}>${opt.optLabel}</option>`
-												)}
-                    </select>
-                `}
+				<div id={el.id} class="flex flex-col gap-y-1 w-2/3">
+					<label for={el.id}>{el.label}</label>
+					<select id={el.id} name={el.name}>
+						{#each el.args as opt}
+							<option value={opt.optValue}>{opt.optLabel}</option>
+						{/each}
+					</select>
+				</div>
 			{/if}
 			<div class="flex gap-2">
-				<button
-					type="button"
-					on:click={() => deleteElement(el.id)}
-					>delete</button
-				>
+				<button type="button" on:click={() => deleteElement(el.id)}>delete</button>
 				<button type="button">edit</button>
-
 			</div>
 		{/each}
 	</div>
@@ -68,6 +68,6 @@
 	>
 </form>
 <!-- {#if showAdd === true} -->
-	<div class="h-2" />
-	<NewInput />
+<div class="h-2" />
+<NewInput />
 <!-- {/if} -->
