@@ -1,10 +1,11 @@
 <script lang="ts">
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 	import type { FormElement } from '$lib/types';
-	import NewInput from '$lib/components/NewInput.svelte';
+	// import NewInput from '$lib/components/formelements/input/NewInput.svelte';
 	import { invalidateAll } from '$app/navigation';
-	import Input from '$lib/components/formelements/Input.svelte';
+	import Input from '$lib/components/formelements/input/Input.svelte';
+	import NewElement from '$lib/components/formelements/NewElement.svelte';
 
 	export let data: PageData;
 
@@ -36,10 +37,6 @@
 					</select>
 				</div>
 			{/if}
-			<div class="flex gap-2">
-				<button type="button" on:click={() => deleteElement(el.id)}>delete</button>
-				<button type="button">edit</button>
-			</div>
 		{/each}
 	</div>
 
@@ -58,5 +55,6 @@
 </form>
 <!-- {#if showAdd === true} -->
 <div class="h-2" />
-<NewInput />
+<!-- <NewInput /> -->
+<NewElement />
 <!-- {/if} -->

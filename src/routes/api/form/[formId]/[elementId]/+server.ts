@@ -1,8 +1,9 @@
 import { client } from '$lib/db/mongo.js';
 import { error } from '@sveltejs/kit';
 import { ObjectId } from 'mongodb';
+import type { RequestHandler } from './$types';
 
-export async function DELETE({ params }) {
+export const DELETE: RequestHandler = async ({ params }) => {
 	const formToDelete = await client
 		.db('dynForms')
 		.collection('forms')
@@ -20,4 +21,4 @@ export async function DELETE({ params }) {
 	} else {
 		throw error(404, { message: 'form not found' });
 	}
-}
+};
