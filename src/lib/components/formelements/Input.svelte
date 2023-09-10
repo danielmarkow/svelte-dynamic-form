@@ -10,7 +10,7 @@
 </script>
 
 {#if showEdit}
-  <EditInput oldLabel={el.label} oldInputType={el.args} oldRequired={el.required} on:notitfy={() => {
+  <EditInput oldLabel={el.label} oldInputType={el.args} oldRequired={el.required} elId={el.id} on:notitfy={() => {
     showEdit = !showEdit
   }} />
 {:else}

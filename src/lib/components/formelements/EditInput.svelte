@@ -4,6 +4,7 @@
 
 	const dispatch = createEventDispatcher();
 
+	export let elId: string;
 	export let oldLabel: string;
 	export let oldInputType: string;
 	export let oldRequired: boolean;
@@ -18,6 +19,7 @@
 }}>
 	<div class="flex flex-col gap-y-1 w-2/3 border border-dashed border-gray-300 p-1">
 		<h2 class="text-xl">edit input</h2>
+		<input type="text" id="elId" name="elId" value={elId} hidden />
 		<div class="flex flex-col">
 			<label for="labelInput">Label</label>
 			<input id="labelInput" name="labelInput" type="text" value={oldLabel} required />

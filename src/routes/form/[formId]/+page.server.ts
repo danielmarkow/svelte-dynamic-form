@@ -43,10 +43,28 @@ export const actions = {
 			return fail(500, { message: 'error saving to db' });
 		}
 	},
-	editinput: async ({ request }) => {
+	editinput: async ({ params, request }) => {
 		const data = await request.formData();
-		console.log(Object.fromEntries(data));
-		return { success: true };
+		const formData = Object.fromEntries(data);
+		try {
+			await client
+				.db('dynForms')
+				.collection('forms')
+				.updateOne(
+					{ _id: new ObjectId(params.formId), 'elements.id': formData.elId },
+					{
+						$set: {
+							'elements.$.args': formData.inputArg,
+							'elements.$.label': formData.labelInput,
+							'elements.$.required': formData.requiredArg
+						}
+					}
+				);
+			// return { success: true };
+		} catch (error) {
+			console.error(error);
+			return fail(500, { message: 'error updating db' });
+		}
 	}
 };
 
