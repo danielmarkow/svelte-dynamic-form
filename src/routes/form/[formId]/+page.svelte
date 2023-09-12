@@ -6,6 +6,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import Input from '$lib/components/formelements/input/Input.svelte';
 	import NewElement from '$lib/components/formelements/NewElement.svelte';
+	import Select from '$lib/components/formelements/select/Select.svelte';
 
 	export let data: PageData;
 
@@ -28,18 +29,7 @@
 				<Input {el} {deleteElement} />
 			{/if}
 			{#if el.type === 'select'}
-				<div id={el.id} class="flex flex-col gap-y-1 w-2/3">
-					<label for={el.id}>{el.label}</label>
-					<select id={el.id} name={el.name}>
-						{#each el.args as opt}
-							<option value={opt.optValue}>{opt.optLabel}</option>
-						{/each}
-					</select>
-				</div>
-				<!-- <div class="flex gap-2">
-					<button type="button" on:click={() => deleteElement(el.id)}>delete</button>
-					
-				</div> -->
+				<Select {el} {deleteElement} />
 			{/if}
 		{/each}
 	</div>
