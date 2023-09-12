@@ -56,5 +56,5 @@
 <!-- {#if showAdd === true} -->
 <div class="h-2" />
 <!-- <NewInput /> -->
-<NewElement />
+<NewElement formId={data.formId} />
 <!-- {/if} -->

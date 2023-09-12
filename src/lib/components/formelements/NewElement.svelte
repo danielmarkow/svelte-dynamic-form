@@ -1,5 +1,8 @@
 <script lang="ts">
 	import NewInput from './input/NewInput.svelte';
+	import NewSelect from './select/NewSelect.svelte';
+
+	export let formId: string;
 
 	let elementType = 'input';
 </script>
@@ -14,6 +17,8 @@
 	<div class="w-2/3">
 		{#if elementType === 'input'}
 			<NewInput />
+		{:else if elementType === 'select'}
+			<NewSelect {formId} />
 		{/if}
 	</div>
 </div>

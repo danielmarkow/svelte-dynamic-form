@@ -4,9 +4,11 @@ import type { PageServerLoad } from './$types';
 import { nanoid } from 'nanoid';
 import { fail } from '@sveltejs/kit';
 
-function uniqueName(label: string) {
-	return label.toString().toLowerCase().replaceAll(' ', '_') + '_' + nanoid(5);
-}
+import { uniqueName } from '$lib/utils/apiHelpers';
+
+// function uniqueName(label: string) {
+// 	return label.toString().toLowerCase().replaceAll(' ', '_') + '_' + nanoid(5);
+// }
 
 export const actions = {
 	create: async ({ request }) => {
@@ -46,6 +48,11 @@ export const actions = {
 			console.error(error);
 			return fail(500, { message: 'error saving to db' });
 		}
+	},
+	createselect: async ({ request }) => {
+		const data = await request.formData();
+		const formData = Object.fromEntries(data);
+		console.log(formData);
 	},
 	editinput: async ({ params, request }) => {
 		const data = await request.formData();
