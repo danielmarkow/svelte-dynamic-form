@@ -29,7 +29,7 @@
 				<Input {el} {deleteElement} />
 			{/if}
 			{#if el.type === 'select'}
-				<Select {el} {deleteElement} />
+				<Select formId={data.formId} {el} {deleteElement} />
 			{/if}
 		{/each}
 	</div>

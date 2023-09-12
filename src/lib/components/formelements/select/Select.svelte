@@ -1,13 +1,17 @@
 <script lang="ts">
   import type {SelectFormElement} from "$lib/types"
+	import EditSelect from "./EditSelect.svelte";
   
+  export let formId: string;
   export let el: SelectFormElement;
 	export let deleteElement: (elementId: string) => void;
 
 	let showEdit = false;
 </script>
   {#if showEdit}
-    <p>TODO edit select form</p>
+    <EditSelect {el} {formId} on:notitfy={() => {
+			showEdit = !showEdit;
+		}} />
   {:else}
     <div id={el.id} class="flex flex-col gap-y-1 w-2/3">
       <label for={el.id}>{el.label}</label>

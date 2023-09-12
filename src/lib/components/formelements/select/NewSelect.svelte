@@ -3,7 +3,9 @@
 	import type { NewSelectData } from '$lib/types';
 	import { invalidateAll } from '$app/navigation';
 	import { newSelectSchema } from '$lib/validation/zodSchemata';
-
+	
+	export let formId: string;
+	
 	let formData: NewSelectData = {
 		label: '',
 		options: [{ id: nanoid(), optValue: '', optLabel: '' }, { id: nanoid(), optValue: '', optLabel: '' }]
@@ -12,8 +14,7 @@
 	function appendOption() {
 		formData.options = [...formData.options, { id: nanoid(), optValue: '', optLabel: '' }];
 	}
-	export let formId: string;
-
+	
 	function submitNewSelect() {
 		try {
 			const newSelect = newSelectSchema.parse(formData);
