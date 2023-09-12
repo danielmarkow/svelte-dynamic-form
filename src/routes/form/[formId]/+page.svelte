@@ -36,6 +36,10 @@
 						{/each}
 					</select>
 				</div>
+				<!-- <div class="flex gap-2">
+					<button type="button" on:click={() => deleteElement(el.id)}>delete</button>
+					
+				</div> -->
 			{/if}
 		{/each}
 	</div>

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { nanoid } from 'nanoid';
 	import type { NewSelectData } from '$lib/types';
-	import type { PageData } from '../../../../routes/$types';
 	import { invalidateAll } from '$app/navigation';
+	import { newSelectSchema } from '$lib/validation/zodSchemata';
 
 	let formData: NewSelectData = {
 		label: '',
@@ -15,18 +15,23 @@
 	export let formId: string;
 
 	function submitNewSelect() {
-		fetch(`/api/form/${formId}/select`, {
-			method: 'POST',
-			body: JSON.stringify(formData)
-		})
-			.then(() => {
-				formData = {
-					label: '',
-					options: [{ id: nanoid(), optValue: '', optLabel: '' }]
-				};
-        invalidateAll()
+		try {
+			const newSelect = newSelectSchema.parse(formData);
+			fetch(`/api/form/${formId}/select`, {
+				method: 'POST',
+				body: JSON.stringify(newSelect)
 			})
-			.catch((err) => console.error('an error occured saving the new select: ', err));
+				.then(() => {
+					formData = {
+						label: '',
+						options: [{ id: nanoid(), optValue: '', optLabel: '' }]
+					};
+					invalidateAll()
+				})
+				.catch((err) => console.error('an error occured saving the new select: ', err));
+		} catch (error) {
+			console.error("form data validation failed")
+		}
 	}
 </script>
 

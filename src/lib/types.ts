@@ -1,3 +1,6 @@
+import type { z } from 'zod';
+import type { newSelectSchema } from './validation/zodSchemata';
+
 export type FormElement =
 	| {
 			id: string;
@@ -34,7 +37,4 @@ export type SelectFormElement = {
 
 export type SelectOptionFormElement = { id: string; optValue: string; optLabel: string };
 
-export type NewSelectData = {
-	label: string;
-	options: { id: string; optValue: string; optLabel: string }[];
-};
+export type NewSelectData = z.infer<typeof newSelectSchema>;
