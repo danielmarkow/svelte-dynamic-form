@@ -12,7 +12,15 @@
 		<div class="border border-gray-300 p-1">
 			<p>{form.name}</p>
 			<p>{form.description}</p>
-			<a href={`/form/${form._id}`}>Edit</a>
+			<button type="button" class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+				<a href={`/form/${form._id}`}>edit</a>
+			</button>
+			<form method="POST" action="?/deleteform" use:enhance>
+				<input type="text" id="formId" name="formId" value={form._id} required hidden />
+				<button formaction="?/deleteform" class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+					delete
+				</button>
+			</form>
 		</div>
 	{/each}
 </div>

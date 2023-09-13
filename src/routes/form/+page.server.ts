@@ -1,6 +1,7 @@
 import { client } from '$lib/db/mongo';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { ObjectId } from 'mongodb';
 
 export const actions = {
 	createform: async ({ request }) => {
@@ -21,6 +22,20 @@ export const actions = {
 		} catch (error) {
 			console.error(error);
 			return fail(500, { message: 'error saving to db' });
+		}
+	},
+	deleteform: async ({ request }) => {
+		const data = await request.formData();
+		const formData = Object.fromEntries(data);
+		try {
+			await client
+				.db('dynForms')
+				.collection('forms')
+				.deleteOne({ _id: new ObjectId(formData.formId as string) });
+			return { success: true };
+		} catch (err) {
+			console.error(error);
+			return fail(500, { message: 'error deleting document' });
 		}
 	}
 };
