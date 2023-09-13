@@ -1,31 +1,41 @@
 <script lang="ts">
-	import { invalidateAll } from "$app/navigation";
-	import type { SelectFormElement } from "$lib/types";
-  import { nanoid } from "nanoid";
-  import { createEventDispatcher } from 'svelte';
+	import { invalidateAll } from '$app/navigation';
+	import type { SelectFormElement } from '$lib/types';
+	import { selectFormElementSchema } from '$lib/validation/zodSchemata';
+	import { nanoid } from 'nanoid';
+	import { createEventDispatcher } from 'svelte';
 
-  export let formId: string;
-  export let el: SelectFormElement;
-	
-  const dispatch = createEventDispatcher();
-  
-  function appendOption() {
+	export let formId: string;
+	export let el: SelectFormElement;
+
+	const dispatch = createEventDispatcher();
+
+	function appendOption() {
 		el.args = [...el.args, { id: nanoid(), optValue: '', optLabel: '' }];
 	}
 
-  function deleteOption(id: string) {
-    el.args = [...el.args.filter((el) => el.id !== id)]
-  }
+	function deleteOption(id: string) {
+		el.args = [...el.args.filter((el) => el.id !== id)];
+	}
 
-  function submitModifiedSelect() {
-    fetch(`/api/form/${formId}/${el.id}/select`, {
-      method: "PUT",
-      body: JSON.stringify(el)
-    }).then(() => {
-      dispatch('notitfy', 'edit successfull');
-      invalidateAll()
-    }).catch((err) => console.error("an error occurred updating the select element: ", err))
-  }
+	function submitModifiedSelect() {
+		try {
+			const modifiedSelect = selectFormElementSchema.parse(el);
+			
+      fetch(`/api/form/${formId}/${el.id}/select`, {
+				method: 'PUT',
+				body: JSON.stringify(modifiedSelect)
+			})
+				.then(() => {
+					dispatch('notify', 'edit successfull');
+					invalidateAll();
+				})
+				.catch((err) => console.error('an error occurred updating the select element: ', err));
+        
+		} catch (err) {
+      console.error("validation error")
+    }
+	}
 </script>
 
 <div class="flex flex-col gap-y-1">
@@ -43,16 +53,21 @@
 			<label for="optValue">{index + 1}. Option Value</label>
 			<input type="text" required bind:value={el.args[index].optValue} />
 		</div>
-    <button type="button" on:click={() => deleteOption(option.id)}>delete</button>
+		<button
+			class="mt-2 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+			type="button"
+			on:click={() => deleteOption(option.id)}>delete</button
+		>
+		<div class="h-2" />
 	{/each}
 </div>
 <button
-  class="mt-2 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-  type="button"
-  on:click={() => appendOption()}>add option</button
+	class="mt-2 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+	type="button"
+	on:click={() => appendOption()}>add option</button
 >
 <button
 	class="mt-2 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-  type="button"
+	type="button"
 	on:click={() => submitModifiedSelect()}>save</button
 >

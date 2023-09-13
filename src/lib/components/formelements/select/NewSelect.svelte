@@ -3,18 +3,21 @@
 	import type { NewSelectData } from '$lib/types';
 	import { invalidateAll } from '$app/navigation';
 	import { newSelectSchema } from '$lib/validation/zodSchemata';
-	
+
 	export let formId: string;
-	
+
 	let formData: NewSelectData = {
 		label: '',
-		options: [{ id: nanoid(), optValue: '', optLabel: '' }, { id: nanoid(), optValue: '', optLabel: '' }]
+		options: [
+			{ id: nanoid(), optValue: '', optLabel: '' },
+			{ id: nanoid(), optValue: '', optLabel: '' }
+		]
 	};
 
 	function appendOption() {
 		formData.options = [...formData.options, { id: nanoid(), optValue: '', optLabel: '' }];
 	}
-	
+
 	function submitNewSelect() {
 		try {
 			const newSelect = newSelectSchema.parse(formData);
@@ -27,11 +30,11 @@
 						label: '',
 						options: [{ id: nanoid(), optValue: '', optLabel: '' }]
 					};
-					invalidateAll()
+					invalidateAll();
 				})
 				.catch((err) => console.error('an error occured saving the new select: ', err));
 		} catch (error) {
-			console.error("form data validation failed")
+			console.error('form data validation failed');
 		}
 	}
 </script>

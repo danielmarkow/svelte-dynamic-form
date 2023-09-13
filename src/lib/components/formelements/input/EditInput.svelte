@@ -17,7 +17,7 @@
 	use:enhance={({}) => {
 		return async ({ result }) => {
 			if (result.type === 'success') {
-				dispatch('notitfy', 'edit successfull');
+				dispatch('notify', 'edit successfull');
 				invalidateAll();
 			}
 		};

@@ -14,7 +14,7 @@
 		oldInputType={el.args}
 		oldRequired={el.required}
 		elId={el.id}
-		on:notitfy={() => {
+		on:notify={() => {
 			showEdit = !showEdit;
 		}}
 	/>
@@ -26,11 +26,24 @@
 {/if}
 
 <div class="flex gap-2">
-	<button type="button" on:click={() => deleteElement(el.id)}>delete</button>
-	<button
-		type="button"
-		on:click={() => {
-			showEdit = !showEdit;
-		}}>edit</button
-	>
+	{#if showEdit === false}
+		<button
+			class="mt-2 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+			type="button"
+			on:click={() => deleteElement(el.id)}>delete</button
+		>
+		<button
+			class="mt-2 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+			type="button"
+			on:click={() => {
+				showEdit = !showEdit;
+			}}>edit</button
+		>
+	{:else}
+		<button
+			class="mt-2 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+			type="button"
+			on:click={() => (showEdit = !showEdit)}>abort</button
+		>
+	{/if}
 </div>
