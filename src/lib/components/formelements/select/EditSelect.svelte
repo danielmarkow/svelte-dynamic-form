@@ -13,6 +13,10 @@
 		el.args = [...el.args, { id: nanoid(), optValue: '', optLabel: '' }];
 	}
 
+  function deleteOption(id: string) {
+    el.args = [...el.args.filter((el) => el.id !== id)]
+  }
+
   function submitModifiedSelect() {
     fetch(`/api/form/${formId}/${el.id}/select`, {
       method: "PUT",
@@ -30,7 +34,7 @@
 		<input type="text" id="selectLabel" name="selectLabel" required bind:value={el.label} />
 	</div>
 	<p class="mt-2">Options</p>
-	{#each el.args as _option, index}
+	{#each el.args as option, index}
 		<div class="flex flex-col">
 			<label for="optLabel">{index + 1}. Option Label</label>
 			<input type="text" required bind:value={el.args[index].optLabel} />
@@ -39,6 +43,7 @@
 			<label for="optValue">{index + 1}. Option Value</label>
 			<input type="text" required bind:value={el.args[index].optValue} />
 		</div>
+    <button type="button" on:click={() => deleteOption(option.id)}>delete</button>
 	{/each}
 </div>
 <button

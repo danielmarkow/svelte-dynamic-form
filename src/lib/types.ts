@@ -1,5 +1,5 @@
 import type { z } from 'zod';
-import type { newSelectSchema } from './validation/zodSchemata';
+import type { newSelectSchema, selectFormElementSchema } from './validation/zodSchemata';
 
 export type FormElement =
 	| {
@@ -27,14 +27,9 @@ export type InputFormElement = {
 	required: boolean;
 };
 
-export type SelectFormElement = {
-	id: string;
-	type: 'select';
-	args: SelectOptionFormElement[];
-	name: string;
-	label: string;
-};
+export type SelectFormElement = z.infer<typeof selectFormElementSchema>;
 
 export type SelectOptionFormElement = { id: string; optValue: string; optLabel: string };
 
+// when generating a new select element this is the input
 export type NewSelectData = z.infer<typeof newSelectSchema>;
