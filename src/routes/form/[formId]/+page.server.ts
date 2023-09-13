@@ -85,13 +85,16 @@ export const load = (async ({ params }) => {
 	const result = await client
 		.db('dynForms')
 		.collection('forms')
-		.findOne({ _id: new ObjectId(formId) }, { projection: { elements: 1 } });
+		.findOne({ _id: new ObjectId(formId) });
+	// .findOne({ _id: new ObjectId(formId) }, { projection: { elements: 1 } });
 	if (result === null) {
 		return { formId };
 	}
 
 	return {
 		formId,
+		formName: result.name,
+		formDescription: result.description,
 		form: result.elements
 	};
 }) satisfies PageServerLoad;

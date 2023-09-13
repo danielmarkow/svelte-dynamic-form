@@ -20,7 +20,7 @@
 		/>
 	</div>
 {:else}
-	<div id={el.id} class="flex flex-col gap-y-1 w-2/3">
+	<div id={el.id} class="flex flex-col gap-y-1">
 		<label for={el.id}>{el.label}</label>
 		<select id={el.id} name={el.name}>
 			{#each el.args as opt}

@@ -19,7 +19,7 @@
 		}}
 	/>
 {:else}
-	<div id={el.id} class="flex flex-col w-2/3">
+	<div id={el.id} class="flex flex-col">
 		<label for={el.id}>{el.label}</label>
 		<input id={el.id} type={el.args} name={el.name} required={el.required || null} />
 	</div>
