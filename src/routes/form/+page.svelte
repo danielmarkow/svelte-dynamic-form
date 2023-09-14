@@ -6,10 +6,10 @@
 	$: forms = JSON.parse(data.forms);
 </script>
 
-<h1>your forms</h1>
+<div class="h-6" />
 <div class="flex flex-col gap-2">
 	{#each forms as form}
-		<div class="border border-gray-300 p-1">
+		<div class="border border-black p-1 bg-gradient-to-r from-gray-200">
 			<h1 class="text-xl">{form.name}</h1>
 			<p class="text-sm">{form.description}</p>
 			<div class="flex gap-1">

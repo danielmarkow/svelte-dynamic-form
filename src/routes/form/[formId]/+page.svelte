@@ -21,6 +21,7 @@
 	}
 </script>
 
+<div class="h-4" />
 <h1 class="text-xl">{data.formName}</h1>
 <p>{data.formDescription}</p>
 <div class="h-4" />
