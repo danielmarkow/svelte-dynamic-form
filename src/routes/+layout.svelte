@@ -24,7 +24,8 @@
 				<button class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
 				type="button" on:click={() => signOut("google")}>sign out</button>
 				{:else}
-				<button type="button" on:click={() => signIn("google")}>sign in</button>
+				<!-- TODO sign in button has different height than sign out -->
+				<button class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" type="button" on:click={() => signIn("google")}>sign in</button>
 				{/if}
 			</div>
 
