@@ -26,14 +26,13 @@
 	<div class="flex flex-col gap-y-1 w-2/3 border border-dashed border-gray-300 p-1">
 		<h2 class="text-xl">edit input</h2>
 		<input type="text" id="elId" name="elId" value={elId} hidden />
-		<div class="flex flex-col">
-			<label for="labelInput">Label</label>
-			<input id="labelInput" name="labelInput" type="text" value={oldLabel} required />
+		<div class="rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+			<label class="block text-xs font-medium text-gray-900" for="labelInput">Label</label>
+			<input class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" id="labelInput" name="labelInput" type="text" value={oldLabel} required />
 		</div>
-		<div class="flex flex-col">
-			<label for="inputArg">Input Type</label>
-
-			<select id="inputArg" name="inputArg">
+		<div class="rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+			<label class="block text-xs font-medium text-gray-900" for="inputArg">Input Type</label>
+			<select class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" id="inputArg" name="inputArg">
 				<option value="text" selected={oldInputType === 'text' ? true : false}>Text</option>
 				<option value="number" selected={oldInputType === 'number' ? true : false}>Number</option>
 				<option value="email" selected={oldInputType === 'email' ? true : false}>Email</option>
@@ -45,9 +44,9 @@
 				<option value="month" selected={oldInputType === 'month' ? true : false}>Year Month</option>
 			</select>
 		</div>
-		<div class="flex flex-col">
-			<label for="requiredArg">Required?</label>
-			<select id="requiredArg" name="requiredArg">
+		<div class="rounded-md px-3 pb-1.5 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+			<label class="block text-xs font-medium text-gray-900" for="requiredArg">Required?</label>
+			<select class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" id="requiredArg" name="requiredArg">
 				<option value={false} selected={oldRequired === false ? true : false}>Not Required</option>
 				<option value={true} selected={oldRequired === true ? true : false}>Required!</option>
 			</select>

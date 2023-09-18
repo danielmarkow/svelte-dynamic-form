@@ -5,7 +5,8 @@ import { selectFormElementSchema } from '$lib/validation/zodSchemata.js';
 import { uniqueName } from '$lib/utils/apiHelpers.js';
 
 // modify select element
-export const PUT = async ({ params, request }) => {
+export const PUT = async ({ locals, params, request }) => {
+	console.log(await locals.getSession());
 	try {
 		const modifiedElement = selectFormElementSchema.parse(await request.json());
 		try {
