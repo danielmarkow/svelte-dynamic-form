@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { PageData } from './$types';
+	// import type { PageData } from './$types';
 	import { page } from '$app/stores';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 
-	export let data: PageData;
+	// export let data: PageData;
 
 	const queryClient = useQueryClient();
 
@@ -17,7 +17,6 @@
 	});
 </script>
 
-<!-- TODO: can't create new form after deleting an old one -->
 <div class="h-6" />
 {#if $page.data.session}
 	<div class="flex flex-col gap-2">
@@ -43,20 +42,30 @@
 							class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
 							href={`/form/${form._id}`}><button type="button"> edit </button></a
 						>
-						<button
-							type="button"
+						<form
 							class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+							method="POST"
+							action="?/togglepublic"
+							use:enhance={() => {
+								// don't clear the forms, still need the id
+								return () => {
+									queryClient.invalidateQueries(['forms']);
+								};
+							}}
 						>
-							{form.public ? 'take private' : 'make public'}
-						</button>
+							<input type="text" id="formId" name="formId" value={form._id} required hidden />
+							<button formaction="?/togglepublic">
+								{form.public ? 'take private' : 'make public'}
+							</button>
+						</form>
 						<form
 							class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
 							method="POST"
 							action="?/deleteform"
 							use:enhance={() => {
-								return async ({ update }) => {
+								// don't clear other forms
+								return () => {
 									queryClient.invalidateQueries(['forms']);
-									update({ reset: true });
 								};
 							}}
 						>

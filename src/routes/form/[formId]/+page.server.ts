@@ -6,10 +6,6 @@ import { fail } from '@sveltejs/kit';
 
 import { uniqueName } from '$lib/utils/apiHelpers';
 
-// function uniqueName(label: string) {
-// 	return label.toString().toLowerCase().replaceAll(' ', '_') + '_' + nanoid(5);
-// }
-
 export const actions = {
 	create: async ({ request }) => {
 		const data = await request.formData();
@@ -49,14 +45,17 @@ export const actions = {
 			return fail(500, { message: 'error saving to db' });
 		}
 	},
-	createselect: async ({ request }) => {
-		const data = await request.formData();
-		const formData = Object.fromEntries(data);
-		console.log(formData);
-	},
+	// createselect: async ({ request }) => {
+	// 	const data = await request.formData();
+	// 	const formData = Object.fromEntries(data);
+	// 	console.log(formData);
+	// },
 	editinput: async ({ params, request }) => {
 		const data = await request.formData();
 		const formData = Object.fromEntries(data);
+
+		const now = new Date();
+
 		try {
 			await client
 				.db('dynForms')
@@ -68,7 +67,8 @@ export const actions = {
 							'elements.$.args': formData.inputArg,
 							'elements.$.name': uniqueName(formData.labelInput as string),
 							'elements.$.label': formData.labelInput,
-							'elements.$.required': formData.requiredArg === 'true' ? true : false
+							'elements.$.required': formData.requiredArg === 'true' ? true : false,
+							changedAt: now
 						}
 					}
 				);
@@ -86,7 +86,6 @@ export const load = (async ({ params }) => {
 		.db('dynForms')
 		.collection('forms')
 		.findOne({ _id: new ObjectId(formId) });
-	// .findOne({ _id: new ObjectId(formId) }, { projection: { elements: 1 } });
 	if (result === null) {
 		return { formId };
 	}

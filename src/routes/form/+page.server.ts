@@ -25,6 +25,57 @@ export const actions = {
 			return fail(500, { message: 'error saving to db' });
 		}
 	},
+	togglepublic: async ({ request }) => {
+		const data = await request.formData();
+		const formData = Object.fromEntries(data);
+
+		const now = new Date();
+
+		try {
+			const formToUpdate = await client
+				.db('dynForms')
+				.collection('forms')
+				.findOne({ _id: new ObjectId(formData.formId as string) });
+
+			try {
+				if (formToUpdate && formToUpdate.public === true) {
+					await client
+						.db('dynForms')
+						.collection('forms')
+						.updateOne(
+							{ _id: new ObjectId(formData.formId as string) },
+							{
+								$set: {
+									public: false,
+									changedAt: now
+								}
+							}
+						);
+				}
+
+				if (formToUpdate && formToUpdate.public === false) {
+					await client
+						.db('dynForms')
+						.collection('forms')
+						.updateOne(
+							{ _id: new ObjectId(formData.formId as string) },
+							{
+								$set: {
+									public: true,
+									changedAt: now
+								}
+							}
+						);
+				}
+			} catch (error) {
+				console.error(error);
+				return fail(500, { message: 'error updating form' });
+			}
+		} catch (error) {
+			console.error(error);
+			return fail(404, { message: 'form not found' });
+		}
+	},
 	deleteform: async ({ request }) => {
 		const data = await request.formData();
 		const formData = Object.fromEntries(data);
@@ -42,9 +93,5 @@ export const actions = {
 };
 
 export const load = (async () => {
-	// const result = client.db('dynForms').collection('forms').find();
-	// const forms = await result.toArray();
-	// // TODO why do I need to stringify?
-	// return { forms: JSON.stringify(forms) };
 	return {};
 }) satisfies PageServerLoad;
