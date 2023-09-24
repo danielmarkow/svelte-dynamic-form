@@ -4,4 +4,6 @@
 	export let data: PageData;
 </script>
 
+<p>test</p>
 {data.formId}
+{JSON.stringify(data.form)}
