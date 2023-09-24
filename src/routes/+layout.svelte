@@ -3,11 +3,16 @@
 	import { signIn, signOut } from "@auth/sveltekit/client";
 	import { page } from "$app/stores";
 	
-	import { navigating } from '$app/stores';
-	import { loading } from '$lib/loading';
-	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import { browser } from '$app/environment';
+	import {QueryClient, QueryClientProvider} from "@tanstack/svelte-query";
 
-	$: $loading = !!$navigating;
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				enabled: browser,
+			}
+		}
+	})
 </script>
 
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -18,9 +23,6 @@
 				<a class="border-black border-b hover:border-b-2 text-sm pt-1" href="/"><button type="button">home</button></a>
 				<a class="border-black border-b hover:border-b-2 text-sm pt-1" href="/form"><button type="button">my forms</button></a>
 			</div>
-			{#if $navigating}
-				<LoadingSpinner />
-			{/if}
 			<div class="flex flex-row w-1/2 justify-end space-x-5 pr-1">
 				{#if $page.data.session}
 				<div>
@@ -37,5 +39,7 @@
 
 		</div>
 	</nav>
-	<slot />
+	<QueryClientProvider client={queryClient}>
+		<slot />
+	</QueryClientProvider>
 </div>

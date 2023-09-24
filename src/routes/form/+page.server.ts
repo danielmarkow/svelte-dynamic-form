@@ -11,17 +11,14 @@ export const actions = {
 		const now = new Date();
 
 		try {
-			await client
-				.db('dynForms')
-				.collection('forms')
-				.insertOne({
-					name: formData.formName,
-					description: formData.formDescription,
-					elements: [],
-					public: formData.public === 'false' ? false : true,
-					createdAt: now,
-					changedAt: now
-				});
+			await client.db('dynForms').collection('forms').insertOne({
+				name: formData.formName,
+				description: formData.formDescription,
+				elements: [],
+				public: false,
+				createdAt: now,
+				changedAt: now
+			});
 			return { success: true };
 		} catch (error) {
 			console.error(error);
@@ -45,8 +42,9 @@ export const actions = {
 };
 
 export const load = (async () => {
-	const result = client.db('dynForms').collection('forms').find();
-	const forms = await result.toArray();
-	// TODO why do I need to stringify?
-	return { forms: JSON.stringify(forms) };
+	// const result = client.db('dynForms').collection('forms').find();
+	// const forms = await result.toArray();
+	// // TODO why do I need to stringify?
+	// return { forms: JSON.stringify(forms) };
+	return {};
 }) satisfies PageServerLoad;
