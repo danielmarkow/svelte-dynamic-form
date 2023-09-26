@@ -30,6 +30,9 @@
 					<a class="border-black border-b hover:border-b-2 text-sm pt-1" href="/form"
 						><button type="button">my forms</button></a
 					>
+					<a class="border-black border-b hover:border-b-2 text-sm pt-1" href="/results"
+						><button type="button">results</button></a
+					>
 				</div>
 				<div class="flex flex-row w-1/2 justify-end space-x-5 pr-1">
 					{#if $page.data.session}

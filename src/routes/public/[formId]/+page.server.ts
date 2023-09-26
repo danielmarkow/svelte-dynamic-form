@@ -11,7 +11,7 @@ export const actions = {
 			await client
 				.db('dynForms')
 				.collection('results')
-				.insertOne({ formId: params.formId, ...formRes });
+				.insertOne({ formId: new ObjectId(params.formId), ...formRes });
 		} catch (error) {
 			console.error(error);
 			return fail(500, { message: 'error saving to db' });
