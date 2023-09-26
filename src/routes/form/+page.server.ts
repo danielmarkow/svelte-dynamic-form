@@ -2,9 +2,16 @@ import { client } from '$lib/db/mongo';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { ObjectId } from 'mongodb';
+import crypto from 'crypto';
 
 export const actions = {
-	createform: async ({ request }) => {
+	createform: async ({ locals, request }) => {
+		const userSession = await locals.getSession();
+		const userEmail = userSession?.user?.email;
+		const userEmailHash = crypto
+			.createHash('sha256')
+			.update(userEmail as string)
+			.digest('base64');
 		const data = await request.formData();
 		const formData = Object.fromEntries(data);
 
@@ -16,6 +23,7 @@ export const actions = {
 				description: formData.formDescription,
 				elements: [],
 				public: false,
+				userEmail: userEmailHash,
 				createdAt: now,
 				changedAt: now
 			});

@@ -5,9 +5,6 @@
 	export let data: PageData;
 </script>
 
-{data.formId}
-{JSON.stringify(data.form)}
-
 {#if data.form}
 	<div class="h-4" />
 	<h1 class="text-xl">{data.form.name}</h1>
