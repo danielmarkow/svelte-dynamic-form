@@ -33,9 +33,16 @@ export const actions = {
 			return fail(500, { message: 'error saving to db' });
 		}
 	},
-	togglepublic: async ({ request }) => {
+	togglepublic: async ({ locals, request }) => {
 		const data = await request.formData();
 		const formData = Object.fromEntries(data);
+
+		const userSession = await locals.getSession();
+		const userEmail = userSession?.user?.email;
+		const userEmailHash = crypto
+			.createHash('sha256')
+			.update(userEmail as string)
+			.digest('base64');
 
 		const now = new Date();
 
@@ -43,7 +50,7 @@ export const actions = {
 			const formToUpdate = await client
 				.db('dynForms')
 				.collection('forms')
-				.findOne({ _id: new ObjectId(formData.formId as string) });
+				.findOne({ _id: new ObjectId(formData.formId as string), userEmail: userEmailHash });
 
 			try {
 				if (formToUpdate && formToUpdate.public === true) {
@@ -51,7 +58,7 @@ export const actions = {
 						.db('dynForms')
 						.collection('forms')
 						.updateOne(
-							{ _id: new ObjectId(formData.formId as string) },
+							{ _id: new ObjectId(formData.formId as string), userEmail: userEmailHash },
 							{
 								$set: {
 									public: false,
@@ -66,7 +73,7 @@ export const actions = {
 						.db('dynForms')
 						.collection('forms')
 						.updateOne(
-							{ _id: new ObjectId(formData.formId as string) },
+							{ _id: new ObjectId(formData.formId as string), userEmail: userEmailHash },
 							{
 								$set: {
 									public: true,
@@ -84,14 +91,22 @@ export const actions = {
 			return fail(404, { message: 'form not found' });
 		}
 	},
-	deleteform: async ({ request }) => {
+	deleteform: async ({ locals, request }) => {
 		const data = await request.formData();
 		const formData = Object.fromEntries(data);
+
+		const userSession = await locals.getSession();
+		const userEmail = userSession?.user?.email;
+		const userEmailHash = crypto
+			.createHash('sha256')
+			.update(userEmail as string)
+			.digest('base64');
+
 		try {
 			await client
 				.db('dynForms')
 				.collection('forms')
-				.deleteOne({ _id: new ObjectId(formData.formId as string) });
+				.deleteOne({ _id: new ObjectId(formData.formId as string), userEmail: userEmailHash });
 			return { success: true };
 		} catch (err) {
 			console.error(err);

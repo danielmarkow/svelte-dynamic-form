@@ -1,13 +1,21 @@
 import { error } from '@sveltejs/kit';
 import { client } from '$lib/db/mongo';
 import { uniqueName } from '$lib/utils/apiHelpers.js';
-
 import { ObjectId } from 'mongodb';
 import { nanoid } from 'nanoid';
+import crypto from 'crypto';
+
 import { newSelectSchema } from '$lib/validation/zodSchemata.js';
 
 // create new select element
-export const POST = async ({ params, request }) => {
+export const POST = async ({ locals, params, request }) => {
+	const userSession = await locals.getSession();
+	const userEmail = userSession?.user?.email;
+	const userEmailHash = crypto
+		.createHash('sha256')
+		.update(userEmail as string)
+		.digest('base64');
+
 	try {
 		const newSelect = newSelectSchema.parse(await request.json());
 		try {
@@ -15,7 +23,7 @@ export const POST = async ({ params, request }) => {
 				.db('dynForms')
 				.collection('forms')
 				.updateOne(
-					{ _id: new ObjectId(params.formId) },
+					{ _id: new ObjectId(params.formId), userEmail: userEmailHash },
 					{
 						$push: {
 							elements: {
