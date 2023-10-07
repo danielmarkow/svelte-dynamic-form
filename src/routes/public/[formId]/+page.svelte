@@ -19,13 +19,13 @@
 				{#if el.type === 'input'}
 					<div id={el.id} class="flex flex-col">
 						<label for={el.id}>{el.label}</label>
-						<input id={el.id} type={el.args} name={el.name} required={el.required || null} />
+						<input id={el.id} type={el.args} name={el.label} required={el.required || null} />
 					</div>
 				{/if}
 				{#if el.type === 'select'}
 					<div id={el.id} class="flex flex-col gap-y-1">
 						<label for={el.id}>{el.label}</label>
-						<select id={el.id} name={el.name}>
+						<select id={el.id} name={el.label}>
 							{#each el.args as opt}
 								<option value={opt.optValue}>{opt.optLabel}</option>
 							{/each}

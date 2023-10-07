@@ -7,14 +7,33 @@ export const actions = {
 	result: async ({ request, params }) => {
 		const data = await request.formData();
 		const formRes = Object.fromEntries(data);
-		console.log(formRes);
+
+		// get form version
 		try {
-			await client
+			const form = await client
 				.db('dynForms')
-				.collection('results')
-				.insertOne({ formId: new ObjectId(params.formId), ...formRes });
-		} catch (error) {
-			console.error(error);
+				.collection('forms')
+				.findOne({ _id: new ObjectId(params.formId) }, { projection: { version: 1 } });
+
+			if (form) {
+				try {
+					await client
+						.db('dynForms')
+						.collection('results')
+						.insertOne({
+							formId: new ObjectId(params.formId),
+							formVersion: form.version,
+							...formRes
+						});
+				} catch (err) {
+					console.error(err);
+					return fail(500, { message: 'error saving to db' });
+				}
+			} else {
+				return fail(404, { message: 'form data not found' });
+			}
+		} catch (err) {
+			console.error(err);
 			return fail(500, { message: 'error saving to db' });
 		}
 	}

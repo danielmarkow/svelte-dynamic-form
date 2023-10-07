@@ -51,10 +51,19 @@
 				</div>
 
 				<div class="flex gap-1">
-					<a
-						class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-						href={`/form/${form._id}`}><button type="button"> edit </button></a
-					>
+					{#if !form.public}
+						<a
+							class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+							href={`/form/${form._id}`}><button type="button"> edit </button></a
+						>
+					{:else}
+						<button
+							class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-gray-200"
+							type="button"
+						>
+							edit
+						</button>
+					{/if}
 					<form
 						class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
 						method="POST"
