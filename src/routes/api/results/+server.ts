@@ -12,12 +12,16 @@ export const GET: RequestHandler = async ({ locals }) => {
 		.update(userEmail as string)
 		.digest('base64');
 
-	// TODO filter for user email
 	// TODO labels?
 	const res = await client
 		.db('dynForms')
 		.collection('forms')
 		.aggregate([
+			{
+				$match: {
+					userEmail: { $eq: userEmailHash }
+				}
+			},
 			{
 				$lookup: {
 					from: 'results',

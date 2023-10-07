@@ -1,13 +1,16 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	// import type { PageData } from './$types';
-	import { page } from '$app/stores';
+	// import { page } from '$app/stores';
+	import ClipboardSvg from '$lib/components/ClipboardSvg.svelte';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
+	import { PUBLIC_APP_URL } from '$env/static/public';
 
 	// export let data: PageData;
 
 	const queryClient = useQueryClient();
 
+	// TODO validate
 	const formsQuery = createQuery({
 		queryKey: ['forms'],
 		queryFn: async () => {
@@ -16,18 +19,15 @@
 		}
 	});
 
-	// async function digestEmail(email: string) {
-	// 	const encoder = new TextEncoder();
-	// 	const data = encoder.encode(email);
-	// 	const hash = await crypto.subtle.digest('SHA-256', data);
-	// 	return hash;
-	// }
+	function copyToClipboard(formId: string) {
+		navigator.clipboard.writeText(`${PUBLIC_APP_URL}public/${formId}`);
+	}
 </script>
 
 <div class="h-6" />
 <div class="flex flex-col gap-2">
 	{#if $formsQuery.isLoading}
-		<p>loading</p>
+		<p class="text-sm">loading</p>
 	{:else if $formsQuery.isError}
 		<p>an error occurred loading forms</p>
 	{:else if $formsQuery.isSuccess}
@@ -35,7 +35,14 @@
 			<div class="border border-black p-1 bg-gradient-to-r from-gray-200">
 				<div class="flex">
 					<div class="w-2/3">
-						<h1 class="text-xl">{form.name}</h1>
+						<div class="flex gap-x-1 items-center">
+							<h1 class="text-xl">{form.name}</h1>
+							{#if form.public}
+								<button type="button" on:click={() => copyToClipboard(form._id)}
+									><ClipboardSvg /></button
+								>
+							{/if}
+						</div>
 						<p class="text-sm">{form.description}</p>
 					</div>
 					<div class="flex justify-end w-1/3">

@@ -14,7 +14,10 @@ export const GET: RequestHandler = async ({ locals }) => {
 	const result = client
 		.db('dynForms')
 		.collection('forms')
-		.find({ userEmail: userEmailHash }, { projection: { name: 1, description: 1, public: 1 } });
+		.find(
+			{ userEmail: userEmailHash },
+			{ projection: { _id: 1, name: 1, description: 1, public: 1 } }
+		);
 	const forms = await result.toArray();
 	return json(forms);
 };
