@@ -24,7 +24,12 @@ export const DELETE: RequestHandler = async ({ locals, params }) => {
 			.collection('forms')
 			.updateOne(
 				{ _id: new ObjectId(params.formId), userEmail: userEmailHash },
-				{ $pull: { elements: { id: params.elementId } } }
+				{
+					$pull: { elements: { id: params.elementId } },
+					$inc: {
+						version: 1
+					}
+				}
 			);
 		return new Response(null, { status: 204 });
 	} else {

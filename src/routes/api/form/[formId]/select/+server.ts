@@ -37,6 +37,9 @@ export const POST = async ({ locals, params, request }) => {
 						},
 						$set: {
 							changedAt: new Date()
+						},
+						$inc: {
+							version: 1
 						}
 					}
 				);

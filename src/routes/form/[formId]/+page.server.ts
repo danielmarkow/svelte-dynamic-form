@@ -45,6 +45,9 @@ export const actions = {
 						},
 						$set: {
 							changedAt: now
+						},
+						$inc: {
+							version: 1
 						}
 					}
 				);
@@ -88,6 +91,9 @@ export const actions = {
 							'elements.$.label': formData.labelInput,
 							'elements.$.required': formData.requiredArg === 'true' ? true : false,
 							changedAt: now
+						},
+						$inc: {
+							version: 1
 						}
 					}
 				);

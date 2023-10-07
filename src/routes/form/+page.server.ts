@@ -24,6 +24,7 @@ export const actions = {
 				elements: [],
 				public: false,
 				userEmail: userEmailHash,
+				version: 1,
 				createdAt: now,
 				changedAt: now
 			});

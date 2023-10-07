@@ -7,6 +7,7 @@ export const actions = {
 	result: async ({ request, params }) => {
 		const data = await request.formData();
 		const formRes = Object.fromEntries(data);
+		console.log(formRes);
 		try {
 			await client
 				.db('dynForms')
